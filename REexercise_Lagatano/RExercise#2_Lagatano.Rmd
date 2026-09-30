@@ -1,0 +1,79 @@
+---
+title: "Exercise 2"
+author: "Rhod Martin Lagatano"
+date: "2026-09-30"
+output: html_document
+---
+
+# PART A - Arithmetic Operation
+```{r}
+
+a <- 17
+b <- 5
+print (a + b)
+print (a - b)
+print (a * b)
+print (a / b)
+
+reminder <- a %% b
+whole_number <- a %/% b
+
+raise <- 2 ^ 10
+
+
+```
+
+_____________________________________________________________________________________________________________________
+
+Question 1: Run 17 / 5, 17 %% 5, and 17 %/% 5 side by side. In your own words, explain how these three results relate to each other mathematically.
+
+```{r}
+17 / 5     # 3.4
+17 %% 5    # 2
+17 %/% 5   # 3
+```
+
+
+Answer: The / operator gives the exact quotient, %/% gives only the whole-number quotient, and %% gives the remainder. Together, the whole-number quotient and remainder can be used to represent the original division.
+_____________________________________________________________________________________________________________________
+
+Question 2: Predict the output of 10 %% 3 and 10 %/% 3 before running the code. Were you correct? If not, explain what you misunderstood.
+
+Answer: I predicted that %% would give the remainder while %/% would give the whole-number quotient. I was correct because these operators separate division into its quotient and remainder.
+_____________________________________________________________________________________________________________________
+
+# PART B - Operations
+```{r}
+x <- 42
+y <- 42L
+z <- "42"
+w <- TRUE
+v <- 3 + 2i 
+
+typeof(x)
+typeof(y)
+typeof(z)
+typeof(w)
+typeof(v)
+
+class(x)
+class(y)
+class(z)
+class(w)
+class(v)
+
+mode(x)
+mode(y)
+mode(z)
+mode(w)
+mode(v)
+```
+
+Question 3: x <- 42 and y <- 42L look almost identical, but typeof(x) and typeof(y) give different answers. Explain the difference in your own words.
+
+Answer: x <- 42 is stored as a regular numeric value, while y <- 42L is specifically stored as an integer. The L tells R to treat the value as an integer.
+
+Question 4: Is typeof() ever different from class() and from mode() for the same object? Look at your results above and explain any case where this happens (or, if you did not see one, explain what you would expect for a matrix or factor).
+
+Answer: Yes, typeof(), class(), and mode() can give different results because they describe an object in different ways. For example, a matrix can have a numeric typeof() while its class() identifies it as a matrix, and a factor can have an integer typeof() while its class() identifies it as a factor.
+
