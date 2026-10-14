@@ -1,0 +1,104 @@
+---
+title: "RExercise3"
+author: "Rhod Martin Lagatano"
+date: "2026-10-14"
+output: html_document
+---
+
+**PART A:**
+
+```{r}
+scores <- c(88, 92, 79, 95, 84)
+subjects <- c("Math", "Science", "English", "History", "PE")
+```
+
+```{r}
+odds <- seq(1,19, by =2)
+spaces <- seq(0,1, length = 5)
+```
+
+```{r}
+A <- rep(c("A"), 5)
+AB <- rep(c("A", "B"), each = 2)
+times <- rep(c("A", "B"), 3)
+```
+
+**Question #1**
+```{r}
+age <- c(15, 28, 32, 36, 27, 18, 52, 39, 42, 29, 35, 31, 27, 22, 37, 34, 19, 20, 57, 49, 50, 37, 46, 25, 17, 12, 42, 53, 41, 51, 35, 24, 33, 8)
+age
+
+length(age)
+1/age
+new_age <- c(age, 0, age)
+length(new_age)
+min(age)
+max(age)
+```
+- _a. How many data points?_
+
+answer: "length(age)" 34 data points.
+
+- _b. Find the reciprocal of age?_
+
+answer: "1/age" Returns a vector of 34 values, with each element being 1 divided by the matching age.
+
+- _c. Assign also new_age <- c(age, 0, age). What happens to new_age?_
+
+answer: c() combines its arguments into one vector, so new_age holds all of age, then a single 0, then all of age again.
+
+- _d. Find the minimum and the maximum value of age._
+
+answer: "min(age)" "max(age)" minimum = 8, maximum = 57.
+
+**Question #2**
+
+- _rep(c("A","B"), each = 2) and rep(c("A","B"), times = 2) both produce a vector of length 4, but with different element orders._
+
+- _Explain in your own words the difference between each and times._
+
+```{r}
+rep(c("A","B"), each = 2)
+rep(c("A","B"), times = 2)
+```
+
+
+answer: each = 2 repeats every element individually before moving on to the next one, while times = 2 repeats the whole vector as a block.
+
+**Question #3**
+
+- _Compare seq(1, 20, by = 2) with seq(1, 20, length.out = 5). What does each argument (by vs length.out) control, and when would you use one over the other in a real analysis?_
+
+```{r}
+seq(1, 20, by = 2)
+seq(1, 20, length.out = 5)
+```
+
+
+answer: in "seq(1, 20, by = 2)" you start your vector with the 1 inside your parenthesis and end with the 20 and then by using "by = 2" you add 2 numbers each time and in "seq(1, 20, length.out = 5)"  you also start with 1 and end with 20 but with using length.out, it controls how many values you get and the value controls how evenly spaced out your sequence is.
+
+**Question #4**
+```{r}
+vec_num <- seq(20, 60)
+mean(vec_num)
+sum(vec_num)
+length(vec_num)
+```
+
+- _a. Generate a sequence for 20 to 60. Name the vector as vec_num_
+
+answer: vec_num <- seq(20, 60)
+
+- _b. Get the mean for vec_num._
+
+answer: mean(vec_num) 40
+
+- _c. Get the sum for vec_num._
+
+answer: sum(vec_num) 1640
+
+- _d. How many data points are there in vec_num?_
+
+asnwer: 41 data points.
+
+
