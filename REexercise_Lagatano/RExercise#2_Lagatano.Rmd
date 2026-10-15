@@ -25,7 +25,7 @@ raise <- 2 ^ 10
 
 _____________________________________________________________________________________________________________________
 
-Question 1: Run 17 / 5, 17 %% 5, and 17 %/% 5 side by side. In your own words, explain how these three results relate to each other mathematically.
+**Question 1:** Run 17 / 5, 17 %% 5, and 17 %/% 5 side by side. In your own words, explain how these three results relate to each other mathematically.
 
 ```{r}
 17 / 5     # 3.4
@@ -37,7 +37,7 @@ Question 1: Run 17 / 5, 17 %% 5, and 17 %/% 5 side by side. In your own words, e
 Answer: The / operator gives the exact quotient, %/% gives only the whole-number quotient, and %% gives the remainder. Together, the whole-number quotient and remainder can be used to represent the original division.
 _____________________________________________________________________________________________________________________
 
-Question 2: Predict the output of 10 %% 3 and 10 %/% 3 before running the code. Were you correct? If not, explain what you misunderstood.
+**Question 2:** Predict the output of 10 %% 3 and 10 %/% 3 before running the code. Were you correct? If not, explain what you misunderstood.
 
 Answer: I predicted that %% would give the remainder while %/% would give the whole-number quotient. I was correct because these operators separate division into its quotient and remainder.
 _____________________________________________________________________________________________________________________
@@ -69,11 +69,114 @@ mode(w)
 mode(v)
 ```
 
-Question 3: x <- 42 and y <- 42L look almost identical, but typeof(x) and typeof(y) give different answers. Explain the difference in your own words.
+**Question 3:** x <- 42 and y <- 42L look almost identical, but typeof(x) and typeof(y) give different answers. Explain the difference in your own words.
 
 Answer: x <- 42 is stored as a regular numeric value, while y <- 42L is specifically stored as an integer. The L tells R to treat the value as an integer.
 
-Question 4: Is typeof() ever different from class() and from mode() for the same object? Look at your results above and explain any case where this happens (or, if you did not see one, explain what you would expect for a matrix or factor).
+**Question 4:** Is typeof() ever different from class() and from mode() for the same object? Look at your results above and explain any case where this happens (or, if you did not see one, explain what you would expect for a matrix or factor).
 
 Answer: Yes, typeof(), class(), and mode() can give different results because they describe an object in different ways. For example, a matrix can have a numeric typeof() while its class() identifies it as a matrix, and a factor can have an integer typeof() while its class() identifies it as a factor.
+
+# Part C - Type Conversion (20 min)
+
+
+```{r}
+num_string <- "123"
+# Convert num_string to a numeric value
+num_value <- as.numeric(num_string)
+num_value
+
+# Check its type
+typeof(num_value)
+class(num_value)
+mode(num_value)
+
+# Convert 0 and 1 to logical
+as.logical(0)
+as.logical(1)
+
+bad_string <- "hello123"
+as.numeric(bad_string)
+```
+
+**Question 5:** 
+- Why do you think R is designed to give a warning here rather than crashing the whole script?
+
+answer: Why a warning instead of crashing: R treats a failed conversion as a data problem, not a fatal error. It marks the bad value as NA and warns you, so the rest of the script (and the other valid values in a larger vector) can still run.
+
+- What are the risks of this behavior if you don’t read your warnings?
+
+answer: Risks if you ignore warnings: the NA values can quietly spread through your calculations (for example, sum() or mean() return NA), or get dropped from your analysis, which can give wrong results without you noticing.
+
+**Question 6:** as.logical(0) and as.logical(1) convert to FALSE and TRUE.
+
+- What do you think as.logical(2) and as.logical(-1)` will produce?
+
+answer: Prediction: as.logical(2) and as.logical(-1) will both produce TRUE.
+
+- *test*
+```{r}
+as.logical(2)
+as.logical(-1)
+```
+
+# Part D - Strings, paste(), and paste0()
+
+```{r}
+first_name <- "Juan"
+last_name <- "Dela Cruz"
+
+# Print first_name and last_name
+print(first_name)
+print(last_name)
+cat(first_name, last_name, "\n")
+
+# Combine with paste() and paste0(), then compare
+full_name <- paste(first_name, last_name)
+full_name
+paste0(first_name, last_name)
+
+# paste() with sep = "-"
+paste(first_name, last_name, sep = "-")
+
+age <- 21
+# Build the sentence using paste0()
+paste0(full_name, " is ", age, " years old.")
+```
+
+**Question 7: ** paste() and paste0() produced different results for the same two strings. Explain exactly why, referencing what each function does by default.
+
+answer: paste() uses a single space as its default separator (sep = " "), so it gives "Juan Dela Cruz". paste0() uses no separator (sep = ""), so it joins the strings directly and gives "JuanDela Cruz".
+
+**Question 8:** In the strings-numbers chunk, you combined a character string with a numeric variable (age) using paste0() without first converting age to a string.
+
+- Did this cause an error? Explain what paste0() does internally to make this work, and how it relates to the type conversions you practiced in Part C
+
+answer: No, it did not cause an error. Internally, paste0() converts each argument to a character string (like calling as.character() on it), so 21 becomes "21" before the pieces are joined. This is the same kind of type conversion (coercion) practiced in Part C, except here R does it automatically and silently, while in Part C you did it yourself with functions like as.numeric() and as.logical().
+
+# Part E - Critical Thinking Challenge
+
+```{r}
+# Predict, then test: "5" + 5
+5 + 5
+# ("5" + 5) Will have to change to run
+# Prediction: R will not give 10. It will stop with an error because "5" is a character string, not a number.
+
+# Fix: convert "5" to numeric first
+as.numeric("5") + 5
+```
+
+**Question 9: ** Some programming languages automatically convert "5" + 5 into 10 without an error. R does not.
+
+- Based on what you’ve learned about R’s data types in this lab, why do you think R requires an explicit conversion instead of guessing what the programmer meant?
+
+answer: R requires an explicit conversion because "5" is a character and 5 is a number, and R doesn't want to guess what you meant. Guessing could silently produce wrong results (for example, should "5" + 5 be 10 or the text "55"?). Making you convert the type yourself keeps the code clear and prevents hidden bugs.
+
+**Question 10:** Suppose a classmate writes a script that reads a column of “numbers” from a text file. The column looks numeric, but when they try sum() on it, R throws an error. Based on everything in this lab (types, typeof()/class()/mode(), conversion, warnings), write a short paragraph explaining what likely went wrong and the steps you’d take to diagnose and fix it.
+
+answer: The column most likely was read in as character instead of numeric, perhaps because of stray text, spaces, commas, or symbols like "N/A" in the file, so it only looks numeric. sum() then fails because it can't add character values. To diagnose, I would check the column with typeof(), class(), and mode() to confirm it is character, and look at the values for anything non-numeric. To fix it, I would clean the bad entries and convert the column with as.numeric(), then read any warning about NA values carefully so I know which values failed to convert, and run sum() again (using na.rm = TRUE if needed).
+
+**Conclusion**
+R stores values as specific data types such as numeric, character, and logical, and these types determine what operations are allowed. Functions like typeof(), class(), and mode() let you check what type you really have, while conversion functions like as.numeric() and as.logical() let you change it on purpose. Understanding types before doing arithmetic or combining data helps you avoid errors, and warnings about NA values, so your results are
+
 
