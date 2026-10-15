@@ -99,6 +99,157 @@ answer: sum(vec_num) 1640
 
 - _d. How many data points are there in vec_num?_
 
-asnwer: 41 data points.
+answer: 41 data points.
 
+--------------------------------------------------------------------------------
 
+**PART B:**
+
+```{r}
+grades <- c(88, 92, 79, 95, 84)
+names(grades) <- c("Math", "Science", "English", "History", "PE")
+
+grades[3]
+grades[c(1, 4)]
+grades[c("Science", "PE")]
+grades[-c(1, 4)]
+grades[grades >= 85]
+```
+**Question #5**
+
+- _Negative indexing (grades[-1]) removes an element, while logical indexing (grades[grades >= 85]) filters by a condition._
+
+- _Describe a real situation where you would need negative indexing, and a different situation where logical indexing would be the better tool._
+
+answer: *Negative indexing:* Use it when you know the position of what to drop. For example, if the first value in a vector is a header or a bad entry, grades[-1] removes it and keeps the rest.
+*Logical indexing:* Use it when you want values that meet a condition and don't know their positions. For example, finding every student with a grade of 85 or higher for the honors list, using grades[grades >= 85].
+
+**Question #6**
+
+- _What happens if you run grades[10] (an index that doesn’t exist)? Run it, observe the result, and explain why R responds this way instead of throwing an error._
+
+answer: R returns NA because the vector only has 5 elements, so position 10 holds no value. R treats a missing value as a normal part of data rather than an error, so it fills in NA and lets your code keep running.
+
+**Question #7**
+
+- _Print a vector with the integers between 1 and 100 that are not divisible by 3, 5 and 7 using filter option._
+
+```{r}
+Filter(function(i) { all(i %% c(3,5,7) != 0) }, seq(100))
+```
+
+--------------------------------------------------------------------------------
+
+**PART C:**
+
+```{r}
+x <- c(1, 2, 3, 4)
+y <- c(10, 20, 30, 40)
+
+# Add x and y element-wise, and print the result
+print(x + y)
+
+# Multiply every element of x by 2
+x * 2
+
+# Add z and short together and print the result
+z <- c(1, 2, 3, 4, 5, 6)
+short <- c(1, 0)
+print(z + short)
+
+# Use append() to add "date" to the end of fruits
+fruits <- c("apple", "banana", "cherry")
+fruits <- append(fruits, "date")
+print(fruits)
+
+# Use append() with the "after" argument to insert "kiwi" after position 1
+fruits <- append(fruits, "kiwi", after = 1)
+print(fruits)
+```
+
+**Question #8**
+
+- _In the vectors-recycling chunk, z has 6 elements and short has only 2. R still produced an answer instead of an error._
+
+- _Explain, in your own words, what R’s “recycling rule” did to short to make the addition work._
+
+answer: R's recycling rule repeats the shorter vector from the start, over and over, until it matches the length of the longer one. Here short (1, 0) was stretched into 1, 0, 1, 0, 1, 0, so each element of z had a partner to be added to.
+
+**Question #9**
+
+- _Now try adding z (length 6) to c(1, 0, 1) (length 3) instead. Does it work cleanly?_
+
+answer: Yes, it works cleanly. c(1, 0, 1) is recycled exactly twice (1, 0, 1, 1, 0, 1), and there is no warning because 6 is a multiple of 3.
+
+- _Then try adding z to c(1, 0, 1, 1) (length 4). Compare the warning (or lack of one) in each case, and explain what condition determines whether R recycles silently versus with a warning._
+
+answer: This time R gives a warning. The shorter vector is recycled one and a half times (1, 0, 1, 1, 1, 0), so it gets cut off partway through the second pass.
+
+--------------------------------------------------------------------------------
+
+**PART D:**
+
+```{r}
+# Create a list called student
+student <- list(name = "Maria Santos", age = 20, grades = c(88, 92, 79), is_enrolled = TRUE)
+
+# Access "grades" using single brackets, then check its type
+student["grades"]
+class(student["grades"])
+
+# Access "grades" using double brackets, then check its type
+student[["grades"]]
+class(student[["grades"]])
+
+# Access "name" using the $ operator
+student$name
+
+# Extract just the SECOND grade
+student[["grades"]][2]
+```
+
+**Question #10**
+
+- _student["grades"] and student[["grades"]] look similar but return objects of different classes._
+
+- _Run class() on each and explain the difference in what single-bracket [ ] versus double-bracket [[ ]] return from a list._
+
+answer: Single brackets [ ] return a smaller list that still contains the selected element (the list is kept as the container). Double brackets [[ ]] pull the element out of the list and return the object itself, which here is the numeric vector 88 92 79.
+
+**Question #11**
+
+- _Why do you think R makes a distinction between [ ] and [[ ]] for lists, but a vector only needs [ ]? Think about what a list can contain that a vector cannot._
+
+answer: A vector holds only single values of one type, so [ ] is enough. A list can hold anything (numbers, text, vectors, even other lists), so R needs two options: [ ] returns a smaller list, while [[ ]] extracts the actual object inside.
+
+--------------------------------------------------------------------------------
+
+**PART E**
+
+```{r}
+inventory <- list(
+  item = c("Notebook", "Pen", "Eraser"),
+  price = c(25.50, 10.00, 5.00),
+  in_stock = c(TRUE, TRUE, FALSE)
+)
+
+# Print only the items that are currently in stock
+inventory$item[inventory$in_stock == TRUE]
+
+# Add "Ruler" (15.00, in stock) to inventory
+inventory$item <- append(inventory$item, "Ruler")
+inventory$price <- append(inventory$price, 15.00)
+inventory$in_stock <- append(inventory$in_stock, TRUE)
+```
+
+**Question #12**
+
+- _In challenge-1, you combined logical indexing on one vector (in_stock) to filter a different vector (item) inside the same list. Explain, step by step, why inventory$item[inventory$in_stock] works even though item and in_stock are stored as separate elements of the list._
+
+answer: inventory$in_stock and inventory$item each pull a plain vector out of the list, so the logical vector TRUE TRUE FALSE is used inside [ ] on the item vector to keep only the positions that are TRUE. Because both vectors have the same length and order, position 1 and 2 match "Notebook" and "Pen", giving "Notebook" "Pen", and being separate list elements doesn't matter since $ turns each into an ordinary vector first.
+
+**Question #13**
+
+- _Suppose a classmate stores related data as three separate, unconnected vectors (item_names, item_prices, item_stock) instead of grouping them into one list like inventory. What risks or bugs could this create as the dataset grows or gets reordered? Argue for or against using a list (or, later, a data frame) instead of separate vectors._
+
+answer: Separate vectors have nothing linking them, so if one is sorted, deleted from, or forgotten when adding a new product, the items, prices, and stock status no longer line up and give wrong results, often without any error. A list keeps the related data together in one object, and a data frame is even better because each row is one product, so sorting or deleting moves everything together and R makes sure all columns have the same length.
